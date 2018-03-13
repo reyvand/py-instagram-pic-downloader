@@ -19,9 +19,15 @@ def get_image(url):
 		c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges']
 		for i in range(len(c)):
 			if 'video_url' in str(c[i]):
-		 		print(content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'][i]['node']['video_url'])
+		 		t = "VID"
+		 		c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'][i]['node']['video_url']
+		 		save_file(c, c.split('/')[-1])
+		 		print("[%s] from username %s\nsaved to %s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1]))
 			else:
-				print(content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'][i]['node']['display_url'])
+				t = "IMG"
+				c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'][i]['node']['display_url']
+				save_file(c, c.split('/')[-1])
+				print("[%s] from username %s\nsaved to %s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1]))
 	else:
 		if 'video_url' in url:
 			t = "VID"
