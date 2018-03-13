@@ -18,10 +18,10 @@ saved to 28157065_139303333552258_3669066724180754432_n.jpg
 ```
 
 ### Requirements
-- Python3
-- Libraries :
- -- json
- -- shutil
- -- requests
- -- bs4
- -- argparse
+* Python3
+* Libraries :
+  * json
+  * shutil
+  * requests
+  * bs4
+  * argparse
