@@ -62,7 +62,7 @@ if __name__ == '__main__':
 	parser = ArgumentParser(description="Simple Instagram Toolkit")
 	parser.add_argument('-u', '--url', dest="url", help="Save image from instagram's post URL")
 	parser.add_argument('-i', '--info', dest="info", help="Retrieve data from given username")
-	parser.add_argument('-p', '--profile-photo', dest="pp", help="Save profile photo from given username")
+	parser.add_argument('-p', '--profile-pic', dest="pp", help="Save profile photo from given username")
 	args = parser.parse_args()
 
 	if args.url != None:
