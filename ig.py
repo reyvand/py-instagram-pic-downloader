@@ -46,7 +46,7 @@ def fetch_profile(url):
 	full_name = content['entry_data']['ProfilePage'][0]['graphql']['user']['full_name']
 	uname = content['entry_data']['ProfilePage'][0]['graphql']['user']['username']
 	priv = content['entry_data']['ProfilePage'][0]['graphql']['user']['is_private']
-	hd_pic = 'https://scontent-sin6-2.cdninstagram.com/vp/0fcef889683193e39751790a70cb7bd1/5B6375CB/t51.2885-19/s320x320/23967274_167494633992237_8399159128328503296_n.jpg'
+	hd_pic = content['entry_data']['ProfilePage'][0]['graphql']['user']['profile_pic_url_hd']
 	result = {'basic':basic, 'full_name':full_name, 'uname':uname, 'priv':priv, 'hd_pic':hd_pic}
 	return result
 
