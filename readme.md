@@ -6,10 +6,11 @@
 - Save single/multiple video
 - Display basic information for given username
 - Save profile picture from given username (in 320x320 dimension)
+- Save all available post for given username (not private account) [NEW]
 
 ### Usage
 ```sh
-usage: ig.py [-h] [-u URL] [-i INFO] [-p PP]
+usage: ig.py [-h] [-u URL] [-i INFO] [-p PP] [-a ALL]
 
 Simple Instagram Toolkit
 
@@ -19,6 +20,8 @@ optional arguments:
   -i INFO, --info INFO  Retrieve data from given username
   -p PP, --profile-pic PP
                         Save profile photo from given username
+  -a ALL, --save-all ALL
+                        Save all posts picture/video from given username
 ```
 
 ### Example
@@ -38,7 +41,8 @@ reyvand__ profile picture saved to 24274132_142176299768499_8138924706221785088_
 ### Requirements
 * Python3
 * Libraries :
-  * json
+	* os
+	* json
   * shutil
   * requests
   * bs4
