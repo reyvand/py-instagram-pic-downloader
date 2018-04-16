@@ -84,10 +84,7 @@ if __name__ == '__main__':
 	parser.add_argument('-u', '--url', dest="url", help="Save image from instagram's post URL")
 	parser.add_argument('-i', '--info', dest="info", help="Retrieve data from given username")
 	parser.add_argument('-p', '--profile-pic', dest="pp", help="Save profile photo from given username")
-<<<<<<< HEAD
 	parser.add_argument('-a', '--save-all', dest="all", help="Save all posts picture/video from given username")
-=======
->>>>>>> 7c031cd31d2551f1aeb8005c456f832ae1eb2c7d
 	args = parser.parse_args()
 
 	if args.url != None:
@@ -96,8 +93,5 @@ if __name__ == '__main__':
 		print(display_info(fetch_profile(args.info)))
 	elif args.pp != None:
 		save_pp(fetch_profile(args.pp))
-<<<<<<< HEAD
 	elif args.all != None:
 		save_all(args.all)
-=======
->>>>>>> 7c031cd31d2551f1aeb8005c456f832ae1eb2c7d
