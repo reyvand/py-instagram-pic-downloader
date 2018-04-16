@@ -6,7 +6,7 @@
 - Save single/multiple video
 - Display basic information for given username
 - Save profile picture from given username (in 320x320 dimension)
-- Save all available post for given username (not private account) [NEW]
+- Save all available post for given username (not private account) [bug]
 
 ### Usage
 ```sh
