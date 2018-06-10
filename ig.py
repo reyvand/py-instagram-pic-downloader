@@ -65,10 +65,7 @@ def save_pp(data):
 	print("%s profile picture saved to %s" %(data['uname'], data['uname']+'/PP_'+data['hd_pic'].split('/')[-1]))
 
 def save_all(url):
-	parsed = r.get(url).text
-	bs = BeautifulSoup(parsed, 'html.parser')
-	script = bs.find_all('script')[3].text
-	content = json.loads(script.split(' = ')[1][:-1])
+	content = find_raw(url)
 	info = display_info(fetch_profile(url)) 
 	print(info+"\n")
 	if fetch_profile(url)['priv'] == True:
