@@ -13,11 +13,16 @@ def save_file(url, filename, userdir):
 	with open(filename, 'wb') as f:
 		shutil.copyfileobj(raw.raw, f)
 
+def find_raw(urlcontent):
+	content = BeautifulSoup(r.get(urlcontent).text, 'html.parser')
+	sc = content.find_all('script')
+	for s in sc:
+		if 'window._sharedData = {' in s.text:
+			return json.loads(s.text.split(' = ')[1][:-1])
+			break
+
 def get_content(url):
-	url = r.get(url).text
-	bs = BeautifulSoup(url, 'html.parser')
-	script = bs.find_all('script')[2].text
-	content = json.loads(script.split(' = ')[1][:-1])
+	content = find_raw(url)
 	if 'edge_sidecar_to_children' in url:
 		c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges']
 		for i in range(len(c)):
@@ -42,11 +47,8 @@ def get_content(url):
 		print("[%s] from username %s\nsaved to %s/%s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1]))
 
 def fetch_profile(url):
-	url = r.get(url).text
-	bs = BeautifulSoup(url, 'html.parser')
-	script = bs.find_all('script')[2].text
-	content = json.loads(script.split(' = ')[1][:-1])
-	basic = bs.find_all(attrs={'property':'og:description'})[0]['content'].split(' - ')[0]
+	content = find_raw(url)
+	basic = BeautifulSoup(r.get(url).text, 'html.parser').find_all(attrs={'property':'og:description'})[0]['content'].split(' - ')[0]
 	full_name = content['entry_data']['ProfilePage'][0]['graphql']['user']['full_name']
 	uname = content['entry_data']['ProfilePage'][0]['graphql']['user']['username']
 	priv = content['entry_data']['ProfilePage'][0]['graphql']['user']['is_private']
@@ -59,13 +61,13 @@ def display_info(data):
 	return info
 
 def save_pp(data):
-	save_file(data['hd_pic'], data['hd_pic'].split('/')[-1])
-	print("%s profile picture saved to %s" %(data['uname'], data['hd_pic'].split('/')[-1]))
+	save_file(data['hd_pic'], 'PP_'+data['hd_pic'].split('/')[-1], data['uname'])
+	print("%s profile picture saved to %s" %(data['uname'], data['uname']+'/PP_'+data['hd_pic'].split('/')[-1]))
 
 def save_all(url):
 	parsed = r.get(url).text
 	bs = BeautifulSoup(parsed, 'html.parser')
-	script = bs.find_all('script')[2].text
+	script = bs.find_all('script')[3].text
 	content = json.loads(script.split(' = ')[1][:-1])
 	info = display_info(fetch_profile(url)) 
 	print(info+"\n")
