@@ -21,7 +21,7 @@ optional arguments:
   -p PP, --profile-pic PP
                         Save profile photo from given username
   -a ALL, --save-all ALL
-                        Save all posts picture/video from given username
+                        Save all posts (limited by 12 first posts) picture/video from given username
 ```
 
 ### Example
