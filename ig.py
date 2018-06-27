@@ -8,7 +8,7 @@ from argparse import ArgumentParser
 def save_file(url, filename, userdir):
 	if not os.path.exists(userdir):
 		os.makedirs(userdir)
-	filename = userdir+"/"+filename
+	filename = userdir+"/"+filename.split('?')[0]
 	raw = r.get(url, stream=True)
 	with open(filename, 'wb') as f:
 		shutil.copyfileobj(raw.raw, f)
@@ -35,7 +35,7 @@ def get_content(url):
 				t = "IMG"
 				c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'][i]['node']['display_url']
 				save_file(c, c.split('/')[-1], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'])
-				print("[%s] from username %s\nsaved to %s/%s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1]))
+				print("[%s] from username %s\nsaved to %s/%s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1].split('?')[0]))
 	else:
 		if 'video_url' in url:
 			t = "VID"
@@ -44,7 +44,7 @@ def get_content(url):
 			t = "IMG"
 			c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['display_url']
 		save_file(c, c.split('/')[-1], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'])
-		print("[%s] from username %s\nsaved to %s/%s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1]))
+		print("[%s] from username %s\nsaved to %s/%s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1].split('?')[0]))
 
 def fetch_profile(url):
 	content = find_raw(url)
@@ -61,8 +61,8 @@ def display_info(data):
 	return info
 
 def save_pp(data):
-	save_file(data['hd_pic'], 'PP_'+data['hd_pic'].split('/')[-1], data['uname'])
-	print("%s profile picture saved to %s" %(data['uname'], data['uname']+'/PP_'+data['hd_pic'].split('/')[-1]))
+	save_file(data['hd_pic'], 'pp_'+data['hd_pic'].split('/')[-1], data['uname'])
+	print("%s profile picture saved to %s" %(data['uname'], data['uname']+'/pp_'+data['hd_pic'].split('/')[-1].split('?')[0]))
 
 def save_all(url):
 	content = find_raw(url)
