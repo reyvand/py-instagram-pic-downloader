@@ -23,7 +23,7 @@ def find_raw(urlcontent):
 
 def get_content(url):
 	content = find_raw(url)
-	if 'edge_sidecar_to_children' in url:
+	if 'edge_sidecar_to_children' in str(content):
 		c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges']
 		for i in range(len(c)):
 			if 'video_url' in str(c[i]):
