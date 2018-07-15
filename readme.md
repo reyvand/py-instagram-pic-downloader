@@ -7,10 +7,11 @@
 - Display basic information for given username
 - Save profile picture from given username (in 320x320 dimension)
 - Save all available post for given username (not private account) [bug]
+- Load cookie from file (you must save a full cookie from authenticated user into a file)
 
 ### Usage
 ```sh
-usage: ig.py [-h] [-u URL] [-i INFO] [-p PP] [-a ALL]
+usage: ig.py [-h] [-u URL] [-i INFO] [-p PP] [-a ALL] [-c COOKIE]
 
 Simple Instagram Toolkit
 
@@ -21,7 +22,9 @@ optional arguments:
   -p PP, --profile-pic PP
                         Save profile photo from given username
   -a ALL, --save-all ALL
-                        Save all posts (limited by 12 first posts) picture/video from given username
+                        Save all posts picture/video from given username
+  -c COOKIE, --cookie COOKIE
+                        Load cookie from file
 ```
 
 ### Example
