@@ -15,7 +15,7 @@ def save_file(url, filename, userdir):
 
 def find_raw(urlcontent, cookie=''):
 	if cookie != '':
-		print("Load cookie file from %s" %(cookie))
+		print("Load cookie from file %s" %(cookie))
 		custom_header = {'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:59.0) Gecko/20100101 Firefox/59.0', 'Cookie':open(cookie).read()}
 	else:
 		custom_header = {'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:59.0) Gecko/20100101 Firefox/59.0'}
