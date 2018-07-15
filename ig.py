@@ -15,7 +15,7 @@ def save_file(url, filename, userdir):
 
 def find_raw(urlcontent, cookie=''):
 	if cookie != '':
-		print("Load cookie file from %s" %(cookie))
+		print("Load cookie from file %s" %(cookie))
 		custom_header = {'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:59.0) Gecko/20100101 Firefox/59.0', 'Cookie':open(cookie).read()}
 	else:
 		custom_header = {'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:59.0) Gecko/20100101 Firefox/59.0'}
@@ -27,29 +27,32 @@ def find_raw(urlcontent, cookie=''):
 			break
 
 def get_content(url, cookie=''):
-	content = find_raw(url, cookie)
-	if 'edge_sidecar_to_children' in str(content):
-		c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges']
-		for i in range(len(c)):
-			if 'video_url' in str(c[i]):
-		 		t = "VID"
-		 		c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'][i]['node']['video_url']
-		 		save_file(c, c.split('/')[-1], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'])
-		 		print("[%s] from username %s\nsaved to %s/%s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1]))
+	try:
+		content = find_raw(url, cookie)
+		if 'edge_sidecar_to_children' in str(content):
+			c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges']
+			for i in range(len(c)):
+				if 'video_url' in str(c[i]):
+			 		t = "VID"
+			 		c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'][i]['node']['video_url']
+			 		save_file(c, c.split('/')[-1], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'])
+			 		print("[%s] from username %s\nsaved to %s/%s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1]))
+				else:
+					t = "IMG"
+					c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'][i]['node']['display_url']
+					save_file(c, c.split('/')[-1], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'])
+					print("[%s] from username %s\nsaved to %s/%s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1].split('?')[0]))
+		else:
+			if 'video_url' in url:
+				t = "VID"
+				c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['video_url']
 			else:
 				t = "IMG"
-				c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'][i]['node']['display_url']
-				save_file(c, c.split('/')[-1], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'])
-				print("[%s] from username %s\nsaved to %s/%s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1].split('?')[0]))
-	else:
-		if 'video_url' in url:
-			t = "VID"
-			c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['video_url']
-		else:
-			t = "IMG"
-			c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['display_url']
-		save_file(c, c.split('/')[-1], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'])
-		print("[%s] from username %s\nsaved to %s/%s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1].split('?')[0]))
+				c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['display_url']
+			save_file(c, c.split('/')[-1], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'])
+			print("[%s] from username %s\nsaved to %s/%s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1].split('?')[0]))
+	except:
+		print("Post not found. Maybe it's from private account ?")
 
 def fetch_profile(url):
 	content = find_raw(url)
