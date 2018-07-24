@@ -23,7 +23,7 @@ def find_raw(urlcontent, cookie=''):
 	sc = content.find_all('script')
 	for s in sc:
 		if 'window._sharedData = {' in s.text:
-			return json.loads(s.text.split(' = ')[1][:-1])
+			return json.loads(s.text.split('window._sharedData = ')[1][:-1])
 			break
 
 def get_content(url, cookie=''):
@@ -43,7 +43,7 @@ def get_content(url, cookie=''):
 					save_file(c, c.split('/')[-1], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'])
 					print("[%s] from username %s\nsaved to %s/%s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1].split('?')[0]))
 		else:
-			if 'video_url' in url:
+			if 'video_url' in str(content):
 				t = "VID"
 				c = content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['video_url']
 			else:
@@ -52,7 +52,7 @@ def get_content(url, cookie=''):
 			save_file(c, c.split('/')[-1], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'])
 			print("[%s] from username %s\nsaved to %s/%s" %(t, content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], content['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'], c.split('/')[-1].split('?')[0]))
 	except:
-		print("Post not found. Maybe it's from private account ?")
+		print("Post not found. Maybe it's from private account ? %s" %(url))
 
 def fetch_profile(url):
 	content = find_raw(url)
@@ -87,22 +87,22 @@ def save_all(url):
 
 
 if __name__ == '__main__':
-	parser = ArgumentParser(description="Simple Instagram Toolkit")
-	parser.add_argument('-u', '--url', dest="url", help="Save image from instagram's post URL")
-	parser.add_argument('-i', '--info', dest="info", help="Retrieve data from given username")
-	parser.add_argument('-p', '--profile-pic', dest="pp", help="Save profile photo from given username")
-	parser.add_argument('-a', '--save-all', dest="all", help="Save all posts picture/video from given username")
-	parser.add_argument('-c', '--cookie', dest="cookie", help="Load cookie from file")
-	args = parser.parse_args()
+ 	parser = ArgumentParser(description="Simple Instagram Toolkit")
+ 	parser.add_argument('-u', '--url', dest="url", help="Save image from instagram's post URL")
+ 	parser.add_argument('-i', '--info', dest="info", help="Retrieve data from given username")
+ 	parser.add_argument('-p', '--profile-pic', dest="pp", help="Save profile photo from given username")
+ 	parser.add_argument('-a', '--save-all', dest="all", help="Save all posts picture/video from given username")
+ 	parser.add_argument('-c', '--cookie', dest="cookie", help="Load cookie from file")
+ 	args = parser.parse_args()
 
-	if args.url != None:
-		if args.cookie != None:
-			get_content(args.url, args.cookie)
-		else:
-			get_content(args.url)
-	elif args.info != None:
-		print(display_info(fetch_profile(args.info)))
-	elif args.pp != None:
-		save_pp(fetch_profile(args.pp))
-	elif args.all != None:
-		save_all(args.all)
+ 	if args.url != None:
+ 		if args.cookie != None:
+ 			get_content(args.url, args.cookie)
+ 		else:
+ 			get_content(args.url)
+ 	elif args.info != None:
+ 		print(display_info(fetch_profile(args.info)))
+ 	elif args.pp != None:
+ 		save_pp(fetch_profile(args.pp))
+ 	elif args.all != None:
+ 		save_all(args.all)
