@@ -1,6 +1,4 @@
-import os
-import json
-import shutil
+import os,json,shutil
 import requests as r
 from bs4 import BeautifulSoup
 from argparse import ArgumentParser
